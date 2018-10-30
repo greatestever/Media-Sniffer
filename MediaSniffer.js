@@ -138,8 +138,13 @@ javascript:
 		.close {
 			color: #aaa;
 			float: right;
-			font-size: 28px;
+			font-size: 25px;
 			font-weight: bold;
+			width: 50px;
+			height: 50px;
+			border: 2px solid #eef5df;
+			background-color: #fefefe;
+			border-radius: 50%;
 		}
 
 		.close:hover,
