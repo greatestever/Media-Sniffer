@@ -262,6 +262,7 @@ javascript:
 		for (var i = 0; i < videosBtn.length; i++)
 		{
 			videosBtn[i].onclick = expand;
+			videosBtn[i].setAttribute("controls", "controls");
 		}
 		var audiosBtn = document.getElementsByTagName('audio');
 		for (var i = 0; i < audiosBtn.length; i++)
