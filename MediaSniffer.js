@@ -142,7 +142,7 @@ javascript:
 			font-weight: bold;
 			width: 50px;
 			height: 50px;
-			border: 2px solid #eef5df;
+			border: 2px solid #141414;
 			background-color: #fefefe;
 			border-radius: 50%;
 		}
@@ -173,7 +173,8 @@ javascript:
 			max-height:100px;
 			width:auto;
 			height:auto;
-			padding: 10px;
+			margin: 10px;
+			border: 2px solid #141414;
 		}
 		
 		#media video {
@@ -185,7 +186,13 @@ javascript:
 			max-height:100px;
 			width:auto;
 			height:auto;
-			padding: 10px;
+			margin: 10px;
+			border: 2px solid #141414;
+		}
+		
+		#media audio {
+			margin: 10px;
+			border: 2px solid #141414;
 		}
 		
 		/* Stretch */
@@ -217,7 +224,6 @@ javascript:
 		{
 			var modal = document.getElementById('myModal');
 			
-			/*modal.style.display = "block";*/
 			modal.style.display = "none";
 			location.reload();
 		}
