@@ -2,7 +2,7 @@ javascript:
 (function()
 { 
 	var arr = [];
-	var strBody ="", content = ""; 
+	var content = ""; 
 	var images = document.images; 
 	var links = document.links;
 	var meta = document.getElementsByTagName('meta');
@@ -36,7 +36,6 @@ javascript:
 			if (arr.indexOf(images[i].src) === -1)
 			{
 				arr.push(images[i].src); 
-				strBody += images[i].src; 
 			}
 		} 
 		
@@ -48,7 +47,6 @@ javascript:
 				if (arr.indexOf(content) === -1)
 				{
 					arr.push(content); 
-					strBody += content; 
 				}
 			}
 		} 
@@ -63,7 +61,6 @@ javascript:
 					if (arr.indexOf(content) === -1)
 					{
 						arr.push(content);
-						strBody += content; 
 					}
 				}
 			}
@@ -77,7 +74,6 @@ javascript:
 				if (arr.indexOf(content) === -1)
 				{
 					arr.push(content);
-					strBody += content; 
 				} 
 			}
 			else
@@ -90,7 +86,6 @@ javascript:
 						if (arr.indexOf(videoSources[j].src) === -1)
 						{
 							arr.push(videoSources[j].src);
-							strBody += videoSources[j].src;
 						}
 					}
 				}
@@ -105,7 +100,6 @@ javascript:
 				if (arr.indexOf(content) === -1)
 				{
 					arr.push(content);
-					strBody += content; 
 				} 
 			}
 			else
@@ -118,7 +112,6 @@ javascript:
 						if (arr.indexOf(audioSources[j].src) === -1)
 						{
 							arr.push(audioSources[j].src);
-							strBody += audioSources[j].src;
 						}
 					}
 				}
