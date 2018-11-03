@@ -5,27 +5,26 @@ javascript:
 	var content = ""; 
 	var images = document.images; 
 	var links = document.links;
-	var meta = document.getElementsByTagName('meta');
-	var videos = document.getElementsByTagName('video');
-	var audios = document.getElementsByTagName('audio');
-	var refresh = window.localStorage.getItem('refresh');
-	
+	var meta = document.getElementsByTagName("meta");
+	var videos = document.getElementsByTagName("video");
+	var audios = document.getElementsByTagName("audio");
+	var resources = [];
+	var resourceList = window.performance.getEntriesByType("resource");
+	var refresh = window.localStorage.getItem("refresh");	
+	var isMobile = (/iPhone|iPad|iPod|Android/i).test(navigator.userAgent);
+			
 	if (images.length <= 0 && links.length <= 0 && meta.length <= 0 && videos.length <= 0 && audios.length <= 0)
 	{
 		alert("No media was found.\nPlease refresh to try again.");
 	}
-	else if(!document.URL.includes("instagram.com/p/") && refresh !== null)
+	else if (!isMobile && document.URL.includes("instagram.com/p/") && refresh === null)
 	{
-		window.localStorage.removeItem("refresh");
-		getMedia();
-	}
-	else if (document.URL.includes("instagram.com/p/") && refresh === null)
-	{
-		window.localStorage.setItem('refresh', "1");
+		window.localStorage.setItem("refresh", "1");
 		location.reload();
 	}
 	else
 	{
+		window.localStorage.removeItem("refresh");
 		getMedia();
 	}
 	
@@ -53,7 +52,7 @@ javascript:
 		
 		for (var i = 0; i < meta.length; i++)
 		{ 
-			content = meta[i].getAttribute('content');
+			content = meta[i].getAttribute("content");
 			if (content != null)
 			{
 				if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav"))
@@ -68,7 +67,7 @@ javascript:
 		
 		for (var i = 0; i < videos.length; i++)
 		{ 
-			content = videos[i].getAttribute('src');
+			content = videos[i].getAttribute("src");
 			if (content != null)
 			{
 				if (arr.indexOf(content) === -1)
@@ -78,7 +77,7 @@ javascript:
 			}
 			else
 			{
-				var videoSources = videos[i].getElementsByTagName('source');
+				var videoSources = videos[i].getElementsByTagName("source");
 				if (videoSources != null)
 				{
 					for (var j = 0; j < videoSources.length; j++)
@@ -94,7 +93,7 @@ javascript:
 		
 		for (var i = 0; i < audios.length; i++)
 		{ 
-			content = audios[i].getAttribute('src');
+			content = audios[i].getAttribute("src");
 			if (content != null)
 			{
 				if (arr.indexOf(content) === -1)
@@ -104,7 +103,7 @@ javascript:
 			}
 			else
 			{
-				var audioSources = audios[i].getElementsByTagName('source');
+				var audioSources = audios[i].getElementsByTagName("source");
 				if (audioSources != null)
 				{
 					for (var j = 0; j < audioSources.length; j++)
@@ -116,7 +115,25 @@ javascript:
 					}
 				}
 			}
-		} 
+		}		
+		
+		for (var i = 0; i < resourceList.length; i++)
+		{
+			var content = resourceList[i].name;
+			
+			if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp"))
+			{
+				arr.push(content); 
+			}
+			else if (content.includes(".mp4") || content.includes(".ogg"))
+			{
+				arr.push(content);
+			}
+			else if (content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav"))
+			{
+				arr.push(content);
+			}
+		}
 		
 		if (arr.length <= 0)
 		{
@@ -124,13 +141,15 @@ javascript:
 		}
 		else
 		{
+			document.body.innerHTML = "";
 			document.head.innerHTML = "";
-			var node = document.createElement('style');
+			var node = document.createElement("style");
 			node.innerHTML = 
 			`
 			/* The Modal (background) */
-			.modal {
-				display: block; /* Visible by default */
+			.modal 
+			{
+				display: block; /* Visible by default none; invisible */
 				position: fixed; /* Stay in place */
 				z-index: 1; /* Sit on top */
 				left: 0;
@@ -143,7 +162,8 @@ javascript:
 			}
 
 			/* Modal Content/Box */
-			.modal-content {
+			.modal-content 
+			{
 				background-color: #fefefe;
 				margin: 15% auto; /* 15% from the top and centered */
 				padding: 20px;
@@ -153,36 +173,40 @@ javascript:
 			}
 
 			/* The Close Button */
-			.close {
+			.close 
+			{
 				color: #aaa;
 				float: right;
 				font-size: 25px;
 				font-weight: bold;
 				width: 50px;
 				height: 50px;
-				border: 2px solid #141414;
+				border: 2px solid #c0c0c0;
 				background-color: #fefefe;
 				border-radius: 50%;
 			}
 
 			.close:hover,
-			.close:focus {
+			.close:focus 
+			{
 				color: black;
 				text-decoration: none;
 				cursor: pointer;
 			}
 			
 			/* Media */
-			#media {
+			#media 
+			{
 				margin-left: auto;
 				margin-right: auto;
-				margin: auto;
+				margin: 10px;
 				text-align: justify;
 				-ms-text-justify: distribute-all-lines;
 				text-justify: distribute-all-lines;
 			}
 			
-			#media img {
+			#media img 
+			{
 				vertical-align: top;
 				display: inline-block;
 				*display: inline;
@@ -192,10 +216,11 @@ javascript:
 				width:auto;
 				height:auto;
 				margin: 10px;
-				border: 2px solid #141414;
+				border: 2px solid #c0c0c0;
 			}
 			
-			#media video {
+			#media video 
+			{
 				vertical-align: top;
 				display: inline-block;
 				*display: inline;
@@ -205,16 +230,67 @@ javascript:
 				width:auto;
 				height:auto;
 				margin: 10px;
-				border: 2px solid #141414;
+				border: 2px solid #c0c0c0;
 			}
 			
-			#media audio {
+			#media audio 
+			{
 				margin: 10px;
-				border: 2px solid #141414;
+				border: 2px solid #c0c0c0;
+			}
+			
+			/* Resources */
+			#resources 
+			{
+				margin-left: auto;
+				margin-right: auto;
+				margin: 10px;
+				text-align: justify;
+				-ms-text-justify: distribute-all-lines;
+				text-justify: distribute-all-lines;
+			}
+			
+			#resources a 
+			{
+				text-decoration: none;
+				border:1px solid #c0c0c0;
+				border-radius:5px;
+				padding:10px 10px 10px 10px;
+				margin: 10px;
+				display: inline-block;
+			}
+			
+			/* unvisited link */
+			#resources a:link 
+			{
+				color: #1E90FF;
+				background-color: #fefefe;
+			}
+
+			/* visited link */
+			#resources a:visited 
+			{
+				color: #f3323d;
+				background-color: #fefefe;
+			}
+
+			/* mouse over link */
+			#resources a:hover 
+			{
+				color: #c0c0c0;
+				background-color: #fefefe;
+			}
+
+			/* selected link */
+			#resources a:active 
+			{
+				color: #3d00d6;
+				background-color: #fefefe;
 			}
 			
 			/* Stretch */
-			.stretch {
+			.stretch 
+			{
 				width: 100%;
 				display: inline-block;
 				font-size: 0;
@@ -233,6 +309,7 @@ javascript:
 				<button class="close" id="close">&times;</button>
 				</div>
 				<div id="media"></div>
+				<div id="resources"></div>
 			  </div>
 
 			</div>
@@ -251,43 +328,72 @@ javascript:
 				window.location.href = this.src;
 			}
 			
-			var btn = document.getElementById('close');
+			function shortenURL(url)
+			{
+				if(url.length > 20)
+				{
+				 return "..." + url.slice(-20);
+				} 
+				else 
+				{ 
+				 return url;
+				}
+			}
+			
+			var btn = document.getElementById("close");
 			btn.onclick = close;
 			
-			var div = document.getElementById('media');
+			var mediaDiv = document.getElementById("media");
+			var resourcesDiv = document.getElementById("resources");
 			
-			for (var i = 0; i < arr.length; i++)
+			function loadData()
 			{
-				if (arr[i].includes(".jpg") || arr[i].includes(".png") || arr[i].includes(".jpeg") || arr[i].includes(".gif") || arr[i].includes(".svg") || arr[i].includes(".ico") || arr[i].includes(".bmp"))
+				var imgBtn, vidBtn, audBtn, resBtn;
+				for (var i = 0; i < arr.length; i++)
 				{
-					div.innerHTML += '<img src="' + arr[i] + '" />'; 
+					if (arr[i].includes(".jpg") || arr[i].includes(".png") || arr[i].includes(".jpeg") || arr[i].includes(".gif") || arr[i].includes(".svg") || arr[i].includes(".ico") || arr[i].includes(".bmp"))
+					{
+						imgBtn = document.createElement("img");
+						imgBtn.src = arr[i];
+						imgBtn.onclick = expand;
+						mediaDiv.appendChild(imgBtn);
+					}
+					else if (arr[i].includes(".mp4") || arr[i].includes(".ogg"))
+					{
+						vidBtn = document.createElement("video");
+						vidBtn.src = arr[i];
+						vidBtn.onclick = expand;
+						vidBtn.setAttribute("controls", "controls");
+						mediaDiv.appendChild(vidBtn);
+					}
+					else if (arr[i].includes(".mp3") || arr[i].includes(".ogg") || arr[i].includes(".wav"))
+					{
+						audBtn = document.createElement("audio");
+						audBtn.src = arr[i];
+						audBtn.onclick = expand;
+						audBtn.setAttribute("controls", "controls");
+						mediaDiv.appendChild(audBtn);
+					}
+					resources.push(arr[i]);
 				}
-				else if (arr[i].includes(".mp4") || arr[i].includes(".ogg"))
+				
+				for (var i = 0; i < resourceList.length; i++)
 				{
-					div.innerHTML += '<video src="' + arr[i] + '" />'; 
+					if (resources.indexOf(resourceList[i].name) === -1)
+					{
+						resources.push(resourceList[i].name);
+					}
 				}
-				else if (arr[i].includes(".mp3") || arr[i].includes(".ogg") || arr[i].includes(".wav"))
+				
+				for (var i = 0; i < resources.length; i++)
 				{
-					div.innerHTML += '<audio src="' + arr[i] + '" />'; 
+					resBtn = document.createElement("a");
+					resBtn.setAttribute("href", resources[i]);
+					resBtn.innerHTML = shortenURL(resources[i]);
+					resourcesDiv.appendChild(resBtn);
 				}
 			}
-			var imagesBtn = document.getElementsByTagName('img');
-			for (var i = 0; i < imagesBtn.length; i++)
-			{
-				imagesBtn[i].onclick = expand;
-			}
-			var videosBtn = document.getElementsByTagName('video');
-			for (var i = 0; i < videosBtn.length; i++)
-			{
-				videosBtn[i].onclick = expand;
-				videosBtn[i].setAttribute("controls", "controls");
-			}
-			var audiosBtn = document.getElementsByTagName('audio');
-			for (var i = 0; i < audiosBtn.length; i++)
-			{
-				audiosBtn[i].onclick = expand;
-				audiosBtn[i].setAttribute("controls", "controls");
-			}
+			document.onload = loadData();
 		}
 	}
 
