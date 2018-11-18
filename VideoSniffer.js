@@ -286,7 +286,7 @@ javascript:
 				</div>
 				<div id="media"></div>
 				<div id="resources">
-				<h1>Videos</h1>
+				
         </div>
 			  </div>
 
