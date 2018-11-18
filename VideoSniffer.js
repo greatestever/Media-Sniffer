@@ -285,9 +285,7 @@ javascript:
 				<button class="close" id="close">&times;</button>
 				</div>
 				<div id="media"></div>
-				<div id="resources">
-				
-        </div>
+				<div id="resources"></div>
 			  </div>
 
 			</div>
