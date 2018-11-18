@@ -8,12 +8,13 @@ javascript:
 	var meta = document.getElementsByTagName("meta");
 	var videos = document.getElementsByTagName("video");
 	var audios = document.getElementsByTagName("audio");
+	var iframes = document.getElementsByTagName("iframe");
 	var resources = [];
 	var resourceList = window.performance.getEntriesByType("resource");
 	var refresh = window.localStorage.getItem("refresh");	
 	var isMobile = (/iPhone|iPad|iPod|Android/i).test(navigator.userAgent);
 			
-	if (images.length <= 0 && links.length <= 0 && meta.length <= 0 && videos.length <= 0 && audios.length <= 0)
+	if (images.length <= 0 && links.length <= 0 && meta.length <= 0 && videos.length <= 0 && audios.length <= 0 && iframes.length <= 0)
 	{
 		alert("No media was found.\nPlease refresh to try again.");
 	}
@@ -30,18 +31,10 @@ javascript:
 	
 	function getMedia() 
 	{
-		for (var i = 0; i < images.length; i++)
-		{ 
-			if (arr.indexOf(images[i].src) === -1)
-			{
-				arr.push(images[i].src); 
-			}
-		} 
-		
 		for (var i = 0; i < links.length; i++)
 		{ 
 			content = links[i].href;
-			if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav"))
+			if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav") || content.includes(".avi") || content.includes(".m3u8") || content.includes(".ts"))
 			{	
 				if (arr.indexOf(content) === -1)
 				{
@@ -55,8 +48,8 @@ javascript:
 			content = meta[i].getAttribute("content");
 			if (content != null)
 			{
-				if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav"))
-				{
+				if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav") || content.includes(".avi") || content.includes(".m3u8") || content.includes(".ts"))
+			  {
 					if (arr.indexOf(content) === -1)
 					{
 						arr.push(content);
@@ -91,48 +84,28 @@ javascript:
 			}
 		} 
 		
-		for (var i = 0; i < audios.length; i++)
-		{ 
-			content = audios[i].getAttribute("src");
-			if (content != null)
-			{
-				if (arr.indexOf(content) === -1)
-				{
-					arr.push(content);
-				} 
-			}
-			else
-			{
-				var audioSources = audios[i].getElementsByTagName("source");
-				if (audioSources != null)
-				{
-					for (var j = 0; j < audioSources.length; j++)
-					{
-						if (arr.indexOf(audioSources[j].src) === -1)
-						{
-							arr.push(audioSources[j].src);
-						}
-					}
-				}
-			}
-		}		
-		
 		for (var i = 0; i < resourceList.length; i++)
 		{
 			var content = resourceList[i].name;
 			
-			if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp"))
+			if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav") || content.includes(".avi") || content.includes(".m3u8") || content.includes(".ts"))
 			{
-				arr.push(content); 
+			  if (arr.indexOf(content) === -1)
+			  {
+			    arr.push(content);
+			  }
 			}
-			else if (content.includes(".mp4") || content.includes(".ogg"))
-			{
-				arr.push(content);
-			}
-			else if (content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav"))
-			{
-				arr.push(content);
-			}
+		}
+		
+		/* Run through iframes */
+		for (var i = 0; i < iframes.length; i++)
+		{
+		  var content = iframes[i].src;
+		  
+		  if (resources.indexOf(content) === -1)
+		  {
+		    resources.push(content);
+		  }
 		}
 		
 		if (arr.length <= 0)
@@ -249,6 +222,8 @@ javascript:
 				text-align: justify;
 				-ms-text-justify: distribute-all-lines;
 				text-justify: distribute-all-lines;
+				overflow-wrap: break-word;
+				word-break: break-all;
 			}
 			
 			#resources a 
@@ -357,6 +332,7 @@ javascript:
 			function loadData()
 			{
 				var imgBtn, vidBtn, audBtn, resBtn;
+				
 				for (var i = 0; i < arr.length; i++)
 				{
 					if (arr[i].includes(".mp4") || arr[i].includes(".avi") || arr[i].includes(".m3u8") || arr[i].includes(".ts"))
@@ -380,7 +356,7 @@ javascript:
 				{
 					resBtn = document.createElement("a");
 					resBtn.setAttribute("href", resources[i]);
-					resBtn.innerHTML = filename(resources[i]);
+					resBtn.innerHTML = resources[i];
 					resourcesDiv.appendChild(resBtn);
 				}
 			}

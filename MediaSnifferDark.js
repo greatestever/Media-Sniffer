@@ -31,9 +31,6 @@ javascript:
     
     function getMedia()
     {
-      /*var redirectURL = "http://sfrom.net/" + window.location.href;
-      resources.push(redirectURL);*/
-      
       for (var i = 0; i < images.length; i++)
       {
         if (arr.indexOf(images[i].src) === -1)
@@ -173,7 +170,7 @@ javascript:
 			/* Modal Content/Box */
 			.modal-content 
 			{
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 				color: #ffffff;
 				margin: 15% auto; /* 15% from the top and centered */
 				padding: 20px;
@@ -192,7 +189,7 @@ javascript:
 				width: 50px;
 				height: 50px;
 				border: 2px solid #c0c0c0;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 				border-radius: 50%;
 			}
 
@@ -276,28 +273,28 @@ javascript:
 			#resources a:link 
 			{
 				color: #1E90FF;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 			}
 
 			/* visited link */
 			#resources a:visited 
 			{
 				color: #f3323d;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 			}
 
 			/* mouse over link */
 			#resources a:hover 
 			{
 				color: #c0c0c0;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 			}
 
 			/* selected link */
 			#resources a:active 
 			{
 				color: #3d00d6;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 			}
 			
 			/* Stretch */

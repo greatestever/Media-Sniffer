@@ -8,13 +8,42 @@ javascript:
     var meta = document.getElementsByTagName("meta");
     var videos = document.getElementsByTagName("video");
     var audios = document.getElementsByTagName("audio");
-    var iframes = document.getElementsByTagName("iframe");
     var resources = [];
     var resourceList = window.performance.getEntriesByType("resource");
     var refresh = window.localStorage.getItem("refresh");
     var isMobile = (/iPhone|iPad|iPod|Android/i).test(navigator.userAgent);
     
-    if (images.length <= 0 && links.length <= 0 && meta.length <= 0 && videos.length <= 0 && audios.length <= 0 && resourceList.length <= 0 && iframes.length <= 0)
+    /*var urls = Array.prototype.map.call(document.querySelectorAll("link, img, script, iframe, video, audio, meta, a"),
+	    function(e) 
+	    { 
+	      return e; e.getAttribute("href") || e.getAttribute("src") || e.getAttribute("content"); 
+	    }
+	  );
+	
+  	alert(urls.length);
+  	for(var i = 0; i < urls.length; i++)
+  	{
+  	  document.write("<p>" + urls[i] + "</p>");
+  	  var elem = urls[i];
+      for (var j = 0; j < elem.attributes.length; j++) {
+  	    var attrib = elem.attributes[j];
+  	    if (attrib.specified) {
+  	      document.write(attrib.name + " = " + attrib.value);
+  	    }
+  	  }
+    }*/ 
+    
+    for (var i = 0; i < resourceList.length; i++)
+    {
+      var content = resourceList[i].name;
+      
+      if (content.includes("blob"))
+      {
+        alert("blob");
+      }
+    }
+    
+    if (images.length <= 0 && links.length <= 0 && meta.length <= 0 && videos.length <= 0 && audios.length <= 0)
     {
       alert("No media was found.\nPlease refresh to try again.");
     }
@@ -31,9 +60,6 @@ javascript:
     
     function getMedia()
     {
-      /*var redirectURL = "http://sfrom.net/" + window.location.href;
-      resources.push(redirectURL);*/
-      
       for (var i = 0; i < images.length; i++)
       {
         if (arr.indexOf(images[i].src) === -1)
@@ -45,7 +71,7 @@ javascript:
       for (var i = 0; i < links.length; i++)
       {
         content = links[i].href;
-        if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav") || content.includes(".avi") || content.includes(".m3u8") || content.includes(".ts"))
+        if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav"))
         {
           if (arr.indexOf(content) === -1)
           {
@@ -59,7 +85,7 @@ javascript:
         content = meta[i].getAttribute("content");
         if (content != null)
         {
-          if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav") || content.includes(".avi") || content.includes(".m3u8") || content.includes(".ts"))
+          if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav"))
           {
             if (arr.indexOf(content) === -1)
             {
@@ -125,20 +151,15 @@ javascript:
       {
         var content = resourceList[i].name;
         
-        if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp") || content.includes(".mp4") || content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav") || content.includes(".avi") || content.includes(".m3u8") || content.includes(".ts"))
+        if (content.includes(".jpg") || content.includes(".png") || content.includes(".jpeg") || content.includes(".gif") || content.includes(".svg") || content.includes(".ico") || content.includes(".bmp"))
         {
-          if (arr.indexOf(content) === -1)
-          {
-            arr.push(content);
-          }
+          arr.push(content);
         }
-      }
-      
-      for (var i = 0; i < iframes.length; i++)
-      {
-        var content = iframes[i].src;
-        
-        if (arr.indexOf(content) === -1)
+        else if (content.includes(".mp4") || content.includes(".ogg"))
+        {
+          arr.push(content);
+        }
+        else if (content.includes(".mp3") || content.includes(".ogg") || content.includes(".wav"))
         {
           arr.push(content);
         }
@@ -173,7 +194,7 @@ javascript:
 			/* Modal Content/Box */
 			.modal-content 
 			{
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 				color: #ffffff;
 				margin: 15% auto; /* 15% from the top and centered */
 				padding: 20px;
@@ -192,7 +213,7 @@ javascript:
 				width: 50px;
 				height: 50px;
 				border: 2px solid #c0c0c0;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 				border-radius: 50%;
 			}
 
@@ -258,8 +279,6 @@ javascript:
 				text-align: center;
 				-ms-text-justify: distribute-all-lines;
 				text-justify: distribute-all-lines;
-				overflow-wrap: break-word;
-				word-break: break-all;
 			}
 			
 			#resources a 
@@ -276,28 +295,28 @@ javascript:
 			#resources a:link 
 			{
 				color: #1E90FF;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 			}
 
 			/* visited link */
 			#resources a:visited 
 			{
 				color: #f3323d;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 			}
 
 			/* mouse over link */
 			#resources a:hover 
 			{
 				color: #c0c0c0;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 			}
 
 			/* selected link */
 			#resources a:active 
 			{
 				color: #3d00d6;
-				background-color: #fefefe;
+				background-color: #1b1b1b;
 			}
 			
 			/* Stretch */
@@ -321,7 +340,9 @@ javascript:
 				<button class="close" id="close">&times;</button>
 				</div>
 				<div id="media"></div>
-				<div id="resources"></div>
+				<div id="resources">
+				<h3>Videos</h3>
+                </div>
 			  </div>
 
 			</div>
@@ -368,31 +389,7 @@ javascript:
 				var imgBtn, vidBtn, audBtn, resBtn;
 				for (var i = 0; i < arr.length; i++)
 				{
-					if (arr[i].includes(".jpg") || arr[i].includes(".png") || arr[i].includes(".jpeg") || arr[i].includes(".gif") || arr[i].includes(".svg") || arr[i].includes(".ico") || arr[i].includes(".bmp"))
-					{
-						imgBtn = document.createElement("img");
-						imgBtn.src = arr[i];
-						imgBtn.onclick = expand;
-						mediaDiv.appendChild(imgBtn);
-					}
-					else if (arr[i].includes(".mp4") || arr[i].includes(".ogg") || content.includes(".avi") || content.includes(".m3u8") || content.includes(".ts"))
-					{
-						vidBtn = document.createElement("video");
-						vidBtn.src = arr[i];
-						vidBtn.onclick = expand;
-						vidBtn.setAttribute("controls", "controls");
-						mediaDiv.appendChild(vidBtn);
-					}
-					else if (arr[i].includes(".mp3") || arr[i].includes(".ogg") || arr[i].includes(".wav"))
-					{
-						audBtn = document.createElement("audio");
-						audBtn.src = arr[i];
-						audBtn.onclick = expand;
-						audBtn.setAttribute("controls", "controls");
-						mediaDiv.appendChild(audBtn);
-					}
-					
-					if (resources.indexOf(arr[i]) === -1)
+					if (arr[i].includes(".mp4") || arr[i].includes(".avi") || arr[i].includes(".m3u8") || arr[i].includes(".ts"))
 					{
 						resources.push(arr[i]);
 					}
@@ -402,7 +399,10 @@ javascript:
 				{
 					if (resources.indexOf(resourceList[i].name) === -1)
 					{
-						resources.push(resourceList[i].name);
+						if (resourceList[i].name.includes(".mp4") || resourceList[i].name.includes(".avi") || resourceList[i].name.includes(".m3u8") || resourceList[i].name.includes(".ts"))
+						{
+							resources.push(resourceList[i].name);
+						}
 					}
 				}
 				
@@ -410,7 +410,7 @@ javascript:
 				{
 					resBtn = document.createElement("a");
 					resBtn.setAttribute("href", resources[i]);
-					resBtn.innerHTML = resources[i];
+					resBtn.innerHTML = filename(resources[i]);
 					resourcesDiv.appendChild(resBtn);
 				}
 			}
